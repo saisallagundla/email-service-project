@@ -127,6 +127,7 @@ Run the Lambda function to ensure it can retrieve files from S3 and send emails 
 8. Scheduling Email Sends with EventBridge
 Create a new schedule using EventBridge to trigger the Lambda function.
 Test the EventBridge schedule to confirm emails are sent on time.
+
 Conclusion
 FitLife Weekly demonstrates the power of serverless architecture in building scalable and efficient email marketing solutions. By leveraging AWS services, we can automate the process of sending personalized emails, making it easier to manage and maintain large-scale email campaigns.
 
