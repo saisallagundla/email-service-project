@@ -1,4 +1,5 @@
 FitLife Weekly - Serverless Email Marketing Application
+
 Project Overview
 FitLife Weekly is a serverless email marketing application designed to send health and fitness newsletters to subscribers. The application leverages AWS services including Simple Email Service (SES), EventBridge, S3, Lambda, and Identity & Access Management (IAM) to create a scalable and cost-effective solution for email marketing campaigns.
 
@@ -8,14 +9,18 @@ EventBridge: For scheduling and triggering Lambda functions.
 S3: For storing email templates and contact lists.
 Lambda: For executing email sending logic.
 Identity & Access Management (IAM): For managing permissions and roles.
+
+
 Prerequisites
 To follow along with this project, you will need:
-
 Email addresses (to send to) that you can validate.
 An email address (to send from) that you can validate.
 Basic knowledge of AWS.
 A text editor for writing HTML code.
+
+
 Project Steps
+
 1. Setting Up S3
 Create an S3 bucket to store your email templates and contacts.
 
@@ -30,6 +35,9 @@ Go to your S3 bucket.
 Click "Upload".
 Select your HTML email template file and the CSV file.
 Click "Upload".
+
+
+
 2. HTML Email Template
 Use the following HTML email template for your newsletters:
 
@@ -101,7 +109,7 @@ Copy code
   </div>
   <div class="content">
     <p>Hello {{FirstName}},</p>
-    <p>Welcome to <strong>FitLife Weekly</strong>, your go-to newsletter for the latest tips, trends, and insights in health, nutrition, and fitness. Whether you're a seasoned lifter or just starting your fitness journey, we've got something for everyone.</p>
+    <p>Welcome to <strong>FitLife Weekly</strong>,your go-to newsletter for the latest tips, trends, and insights in health, nutrition, and fitness. Whether you're a seasoned lifter or just starting your fitness journey, we've got something for everyone.</p>
     <!-- Content continues -->
   </div>
   <div class="footer">
@@ -110,6 +118,10 @@ Copy code
 </div>
 </body>
 </html>
+
+
+
+
 3. Setting Up Amazon SES
 Verify your email address and domain in Amazon SES.
 
@@ -119,8 +131,10 @@ Click "Verify a New Email Address".
 Enter your email address and click "Verify This Email Address".
 Follow the instructions in the verification email sent to your address.
 Configure SES to send emails using your verified email address.
-
 In SES, go to "Email Addresses" and ensure your email address is verified.
+
+
+
 4. Moving SES from Sandbox to Production
 Request production access for SES to lift sandbox restrictions.
 
@@ -130,8 +144,9 @@ Click "Sending Statistics".
 Click "Request a Sending Limit Increase".
 Fill out the request form and submit it.
 Validate email addresses you plan to send emails to.
-
 Ensure all recipient email addresses are verified in SES.
+
+
 5. Creating the Lambda Function
 Create a new Python Lambda function for handling email logic.
 
@@ -144,7 +159,7 @@ Click "Create function".
 Lambda function code:
 
 python
-Copy code
+
 import boto3
 import csv
 
@@ -184,6 +199,9 @@ def lambda_handler(event, context):
             print(f"Email sent to {contact['Email']}: Response {response}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
+
 6. Configuring IAM Permissions
 Create a policy with permissions for SES and S3.
 Go to the AWS Management Console.
@@ -191,7 +209,9 @@ Navigate to IAM.
 Click "Policies" and then "Create policy".
 Add the following policy JSON:
 json
-Copy code
+
+
+
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -212,26 +232,40 @@ Copy code
         }
     ]
 }
+
+
+
 Attach the policy to the Lambda execution role.
 Go to the AWS Management Console.
 Navigate to Lambda.
 Select your function and click on the "Configuration" tab.
 Under "Execution role", click on the role name to open it in IAM.
 Attach the new policy to the role.
+
+
 7. Testing the Lambda Function
 Configure a test event for the Lambda function.
 In Lambda, go to your function.
 Click "Test".
 Create a new test event with the following JSON:
+
+
 json
 Copy code
 {
   "comment": "Generic test event for scheduled Lambda execution. The function does not use this event data.",
   "test": true
 }
+
+
 Run the Lambda function to ensure it can retrieve files from S3 and send emails via SES.
 Click "Test" to execute the function.
 Check the CloudWatch logs for any errors and ensure emails are sent.
+
+
+
+
+
 8. Scheduling Email Sends with EventBridge
 Create a new schedule using EventBridge to trigger the Lambda function.
 
@@ -244,10 +278,14 @@ Define a schedule expression (e.g., cron(0 8 * * ? *) for 8 AM daily).
 Add a target and select your Lambda function.
 Test the EventBridge schedule to confirm emails are sent on time.
 
+
 Verify the rule is enabled.
 Monitor CloudWatch logs to ensure the Lambda function is triggered as expected.
+
+
+
+
+
 Conclusion
 FitLife Weekly demonstrates the power of serverless architecture in building scalable and efficient email marketing solutions. By leveraging AWS services, we can automate the process of sending personalized emails, making it easier to manage and maintain large-scale email campaigns.
-
-
 
